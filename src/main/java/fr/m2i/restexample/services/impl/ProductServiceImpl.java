@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findAll() {
-        return productTransformator.modelsToDtos((List<Product>) productRepository.findAll());
+        return productTransformator.modelsToDtos(productRepository.findAll());
     }
 
     @Override

@@ -11,6 +11,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -56,6 +59,24 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorDto errorDto = new ErrorDto(ex.getMessage());
         log.error(ex.getMessage(), ex);
         return buildResponseEntity(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    protected ResponseEntity<Object> handleException(final DisabledException ex) {
+        ErrorDto errorDto = new ErrorDto(ex.getMessage());
+        return buildResponseEntity(errorDto, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    protected ResponseEntity<Object> handleException(final BadCredentialsException ex) {
+        ErrorDto errorDto = new ErrorDto(ex.getMessage());
+        return buildResponseEntity(errorDto, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    protected ResponseEntity<Object> handleException(final UsernameNotFoundException ex) {
+        ErrorDto errorDto = new ErrorDto(ex.getMessage());
+        return buildResponseEntity(errorDto, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(M2IException.class)

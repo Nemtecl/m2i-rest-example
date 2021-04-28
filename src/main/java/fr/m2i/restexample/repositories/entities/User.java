@@ -11,15 +11,14 @@ import javax.persistence.*;
 @Table(name = "products")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class User {
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column
-    private int quantity;
+    private String username;
 
     @Column
-    private String title;
+    private String password;
 }
