@@ -5,6 +5,7 @@ import fr.m2i.restexample.dtos.JwtResponse;
 import fr.m2i.restexample.dtos.RegisterDto;
 import fr.m2i.restexample.dtos.UserDto;
 import fr.m2i.restexample.exceptions.M2I400Exception;
+import fr.m2i.restexample.exceptions.M2I404Exception;
 import fr.m2i.restexample.security.jwt.JwtUtil;
 import fr.m2i.restexample.services.UserService;
 import fr.m2i.restexample.services.impl.JwtUserDetailsService;
@@ -51,7 +52,7 @@ public class JwtController {
     }
 
     @PostMapping("/register")
-    public UserDto register(@RequestBody RegisterDto registerDto) throws M2I400Exception {
+    public UserDto register(@RequestBody RegisterDto registerDto) throws M2I400Exception, M2I404Exception {
         return userService.create(registerDto);
     }
 }

@@ -4,6 +4,7 @@ import fr.m2i.restexample.dtos.UserDto;
 import fr.m2i.restexample.repositories.entities.User;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,7 @@ public class UserTransformator {
         if (dto == null) {
             return null;
         }
-        return new User(dto.getId(), dto.getUsername(), null);
+        return new User(dto.getId(), dto.getUsername(), null, new HashSet<>());
     }
 
     public List<User> dtosToModels(final List<UserDto> dtos) {
