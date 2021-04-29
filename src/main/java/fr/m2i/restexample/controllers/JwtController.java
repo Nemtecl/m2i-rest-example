@@ -6,8 +6,8 @@ import fr.m2i.restexample.dtos.RegisterDto;
 import fr.m2i.restexample.dtos.UserDto;
 import fr.m2i.restexample.exceptions.M2I400Exception;
 import fr.m2i.restexample.security.jwt.JwtUtil;
-import fr.m2i.restexample.services.JwtService;
 import fr.m2i.restexample.services.UserService;
+import fr.m2i.restexample.services.impl.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// TODO tester api https://www.javainuse.com/spring/boot-jwt-mysql
 // TODO role based https://www.devglan.com/spring-security/jwt-role-based-authorization
 
 
@@ -29,10 +28,10 @@ public class JwtController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtUtil jwtTokenUtil;
+    private JwtUtil jwtUtil;
 
     @Autowired
-    private JwtService userDetailsService;
+    private JwtUserDetailsService jwtUserDetailsService;
 
     @Autowired
     private UserService userService;
@@ -43,10 +42,10 @@ public class JwtController {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                 authenticationRequest.getPassword()));
 
-        final UserDetails userDetails = userDetailsService
+        final UserDetails userDetails = jwtUserDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
 
-        final String token = jwtTokenUtil.generateToken(userDetails);
+        final String token = jwtUtil.generateToken(userDetails);
 
         return new JwtResponse(token);
     }

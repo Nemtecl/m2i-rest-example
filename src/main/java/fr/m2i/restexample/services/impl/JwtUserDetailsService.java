@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-public class JwtServiceImpl implements UserDetailsService {
+public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -20,7 +20,7 @@ public class JwtServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optional = userRepository.findByUsername(username);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
         return new org.springframework.security.core.userdetails.User(optional.get().getUsername(),

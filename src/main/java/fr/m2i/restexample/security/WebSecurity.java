@@ -44,7 +44,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
-    private UserDetailsService jwtUserDetailsService;
+    private UserDetailsService jwtService;
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
@@ -54,7 +54,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         // configure AuthenticationManager so that it knows from where to load
         // user for matching credentials
         // Use BCryptPasswordEncoder
-        auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(jwtService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
